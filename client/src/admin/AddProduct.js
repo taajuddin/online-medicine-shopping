@@ -20,7 +20,7 @@ const AddProduct = () => {
         formData: ''
     });
 
-    const { user, token } = isAuthenticated();
+    const { users, token } = isAuthenticated();
     const {
         name,
         description,
@@ -64,7 +64,7 @@ const AddProduct = () => {
         event.preventDefault();
         setValues({ ...values, error: '', loading: true });
 
-        createProduct(user._id, token, formData).then(data => {
+        createProduct(users._id, token, formData).then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error });
             } else {
@@ -148,7 +148,7 @@ const AddProduct = () => {
         );
 
     return (
-        <Layout title="Add a new product" description={`G'day ${user.name}, ready to add a new product?`}>
+        <Layout title="Add a new product" description={`G'day ${users.name}, ready to add a new product?`}>
             <div className="row">
                 <div className="col-md-8 offset-md-2">
                     {showLoading()}

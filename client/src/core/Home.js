@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import Layout from './Layout'
 import  {getProducts} from './apiCore'
-import Card from './Card'
+import Box from './Box'
+import Search from './Search'
 const Home=()=>{
 	
 	const [productsBySell,setProductsBySell]=useState([])
@@ -35,18 +36,22 @@ const Home=()=>{
 
 	return(
 		<Layout title="Home Page" description="This Is Online Medicine Shopping" className="container-fluid">
-
+		<Search />
 		<h3 className="mb-4">New Arrival</h3>
 			<div className="row">
 				{productsByArrival.map((product,i)=>(
-				<Card key={i} product={product} />
+				<div key={i} className="col-4 mb-3">
+					<Box  product={product} />
+				</div>
 			))}
 
 			</div>
 			<h3 className="mb-4">Best Seller</h3>
 			<div className="row">
 				{productsBySell.map((product,i)=>(
-				<Card key={i} product={product} />
+				<div key={i} className="col-4 mb-3">
+					<Box  product={product} />
+				</div>
 			))}
 
 			</div>

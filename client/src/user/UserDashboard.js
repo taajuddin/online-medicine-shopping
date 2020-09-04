@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 
 const  Dashboard =()=>{
 
-	const {user:{_id,name,email,role}}=isAuthenticated()
+	const {users:{_id,name,email,role}}=isAuthenticated()
 
 	const userLinks=()=>{
 		return (

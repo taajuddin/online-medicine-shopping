@@ -10,7 +10,7 @@ const AddCategory=()=>{
 	const [success, setSuccess]=useState(false)
 
 	//destructure users and token from localStorage
-	const {user,token}=isAuthenticated()
+	const {users,token}=isAuthenticated()
 
 	//handleChange
 	const handleChange=(e)=>{
@@ -23,7 +23,7 @@ const AddCategory=()=>{
 		setError('')
 		setSuccess(false)
 		//make request to api to create category
-		createCategory(user._id,token,{name})
+		createCategory(users._id,token,{name})
 			.then((data)=>{
 				console.log(data)
 				if(data.error){
@@ -70,7 +70,7 @@ const newCategoryForm=()=>(
 	</form>
 	)
 return (
-		<Layout title="Add a new Category" description={`Good Day ${user.name} ready to add new category`} >
+		<Layout title="Add a new Category" description={`Good Day ${users.name} ready to add new category`} >
 			
 			<div className="row">
 				<div className="col-md-8 offset-md-2 ">

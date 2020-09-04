@@ -21,12 +21,12 @@ const Menu=({history})=>
             <li className="nav-item">
                 <Link className="nav-link" style={isActive(history, '/shop')} to="/shop">Shop </Link>
             </li>
-			{isAuthenticated()&& isAuthenticated().user.role=== 0 && (
+			{isAuthenticated()&& isAuthenticated().users.role=== 0 && (
                 <li className="nav-item">
                 <Link className="nav-link" style={isActive(history, '/user/dashboard')} to="/user/dashboard">Dashboard</Link>
                  </li>
                 )}
-            {isAuthenticated()&& isAuthenticated().user.role=== 1 && (
+            {isAuthenticated()&& isAuthenticated().users.role=== 1 && (
                 <li className="nav-item">
                 <Link className="nav-link" style={isActive(history, '/admin/dashboard')} to="/admin/dashboard">Dashboard</Link>
                  </li>

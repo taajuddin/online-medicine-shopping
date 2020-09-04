@@ -6,7 +6,7 @@ const AdminRoute=({component:Component, ...rest})=>(
 		<Route
 			{...rest}
 			render={props =>
-				isAuthenticated() && isAuthenticated().user.role===1 ?(
+				isAuthenticated() && isAuthenticated().users.role===1 ?(
 					<Component {...props} />
 					):(
 						<Redirect to={{pathname:"/admin/dashboard", state:{from:props.location}}}/>

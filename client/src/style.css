@@ -52,6 +52,11 @@
  * product image on card
  */
 
+  .media: {
+    height: 0;
+    padding-top: '56.25%';
+  }
+
 .product-img {
     min-height: 100px;
 }

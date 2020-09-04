@@ -6,7 +6,7 @@ export const createCategory = (userId,token,category)=> {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization:`Bearer ${token}`
+            Authorization: token
           },
         body: JSON.stringify(category)
     })
@@ -24,7 +24,7 @@ export const createProduct = (userId,token,product)=> {
         method: 'POST',
         headers: {
             Accept: 'application/json',
-            Authorization:`Bearer ${token}`
+            Authorization:token
           },
         body: product
     })
