@@ -1,41 +1,39 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {connect} from 'react-redux'
+import { Link,Redirect } from 'react-router-dom';
 import Layout from '../core/Layout';
-import { signup } from '../auth';
+import { signup } from '../../actions/users';
 
-const Signup = () => {
+const Signup = (props) => {
     const [values, setValues] = useState({
         name: '',
         email: '',
         password: '',
-        error: '',
-        success: false
+        redirectToReferrer: false
+        
     });
 
-    const { name, email, password, success, error } = values;
+    const { name, email, password,redirectToReferrer} = values;
 
     const handleChange = name => event => {
-        setValues({ ...values, error: false, [name]: event.target.value });
+        setValues({ ...values, [name]: event.target.value });
     };
 
     const clickSubmit = event => {
         event.preventDefault();
-        setValues({ ...values, error: false });
-        signup({ name, email, password }).then(data => {
-            if (data.error) {
-                setValues({ ...values, error: data.error, success: false });
-            } else {
-                setValues({
-                    ...values,
-                    name: '',
-                    email: '',
-                    password: '',
-                    error: '',
-                    success: true
-                });
-            }
-        });
+        setValues({ ...values});
+        props.dispatch(signup({ name, email, password })) 
+        setValues({
+                        ...values,
+                        redirectToReferrer: true
+                    });          
+        
     };
+const redirectUser = () => {
+                if (redirectToReferrer) {
+                return <Redirect to="/signin" />
+                     }
+            }
 
     const signUpForm = () => (
         <form>
@@ -59,29 +57,16 @@ const Signup = () => {
         </form>
     );
 
-    const showError = () => (
-        <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-            {error}
-        </div>
-    );
-
-    const showSuccess = () => (
-        <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-            New account is created. Please <Link to="/signin">Signin</Link>
-        </div>
-    );
-
     return (
         <Layout
             title="Signup"
             description="Signup to Node React E-commerce App"
             className="container col-md-8 offset-md-2"
         >
-            {showSuccess()}
-            {showError()}
             {signUpForm()}
+            {redirectUser()}
         </Layout>
     );
 };
 
-export default Signup;
+export default connect()(Signup);

@@ -61,6 +61,10 @@ auth.signin = (req, res) => {
         })
 }
 
+auth.account = (req, res) => {
+    res.json(req.user)
+}
+
 
 
 auth.signout = (req, res) => {

@@ -1,9 +1,16 @@
 const express=require('express')
 const router=express.Router()
 
+//cart
+const cartController = require('../app/controllers/cartController')
+
+
+ //order
+ const order = require('../app/controllers/order')
+
 
 //user
-const { requireSignin,isAuth,isLogin,isAdmin} = require('../app/middlewares/authenticate')
+const { isLogin,isAdmin} = require('../app/middlewares/authenticate')
 const auth = require('../app/controllers/auth')
 const user = require('../app/controllers/user')
 const { userSignupValidator } = require("../app/middlewares/validator");
@@ -19,6 +26,7 @@ const product = require('../app/controllers/product')
 //Authentication
  router.post('/signup',userSignupValidator,auth.signup)
  router.post('/signin',auth.signin)
+ router.get('/users/account',isLogin,auth.account)
  router.get('/signout',isLogin,auth.signout)
 
  //users Routes
@@ -46,6 +54,15 @@ router.post("/products/by/search",product.listBySearch)
 router.get("/product/photo/:productId", product.photo)
 router.get("/products/search",product.listSearch)
 
+//cart routes
+router.get('/cart',isLogin,cartController.list)
+router.post('/cart',isLogin,cartController.create)
+router.put('/cart/qunatity/update',isLogin,cartController.updateQuantity)
+router.delete('/cart/delete/all',isLogin,cartController.deleteAll)
+
+
+//order routes
+router.post('/order/create/:userId',isLogin, order.create)
 
 //ID
 router.param('userId', userById);

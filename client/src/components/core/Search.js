@@ -1,37 +1,35 @@
 import React,{useState,useEffect} from 'react'
 import Layout from './Layout'
-import  {getCategories,list} from './apiCore'
+import {connect} from 'react-redux'
+import { API } from '../../config';
+import queryString from 'query-string'
 import Box from './Box'
 
 
-const Search=()=>{
+const Search=(props)=>{
 
 	const [data,setData]=useState({
-		categories:[],
 		category:'',
 		serach:'',
 		results:[],
 		searched:false
 	})
 
-	const {categories,category,search,results,searched}=data
+	const {category,search,results,searched}=data
 
-	const loadCategires=()=>{
-		getCategories().then((data)=>{
-			if(data.error){
-				console.log(data.error)
-			}
-			else{
-				setData({...data, categories:data})
-			}
-		})
-	}
-
-	useEffect(()=>{
-
-		loadCategires()
-
-	},[])
+	const list=(params)=>{
+    	const query=queryString.stringify(params)
+	    console.log('query',query)
+	    return fetch(`${API}/products/search?${query}`,{
+	        method:'GET'
+	    })
+	    .then((response)=>{
+	        return response.json()
+	    })
+	    .catch((err)=>{
+	        console.log((err))
+	    })
+}
 
 	const searchData=()=>{
 		//console.log(search,category)
@@ -67,7 +65,7 @@ const Search=()=>{
 					<select className="btn mr-2" onChange={handleChange("category")}>
 						<option value="All">All</option>
 						{
-							categories.map((c,i)=>{
+							props.categories.map((c,i)=>{
 								return <option key={i} value={c._id}>{c.name}</option>
 							})
 						}
@@ -121,5 +119,10 @@ const searchMessage=(searched,results)=>{
 			</div>
 		)
 }
+const mapStateToProps=(state)=>{
+	return{
+		categories:state.categories
+	}
+}
 
-export default Search
+export default connect(mapStateToProps)(Search)

@@ -1,17 +1,15 @@
 import React,{useState} from 'react'
 import Layout from '../core/Layout'
-import {isAuthenticated} from '../auth/index'
 import {Link} from 'react-router-dom'
-import {createCategory} from './apiAdmin'
+import {connect} from 'react-redux'
+import {createCategory} from '../../actions/categories'
 
-const AddCategory=()=>{
+const AddCategory=(props)=>{
 	const [name, setName]=useState('')
 	const [error, setError]=useState(false)
 	const [success, setSuccess]=useState(false)
 
 	//destructure users and token from localStorage
-	const {users,token}=isAuthenticated()
-
 	//handleChange
 	const handleChange=(e)=>{
 		setError('')
@@ -23,17 +21,15 @@ const AddCategory=()=>{
 		setError('')
 		setSuccess(false)
 		//make request to api to create category
-		createCategory(users._id,token,{name})
-			.then((data)=>{
-				console.log(data)
-				if(data.error){
+		props.dispatch(createCategory(props.user._id,{name}))
+				if(error){
 					setError(true)
 				}
 				else{
 					setError('')
 					setSuccess(true)
 				}
-			})
+			
 	}
 
 	const showSuceess=()=>{
@@ -70,7 +66,7 @@ const newCategoryForm=()=>(
 	</form>
 	)
 return (
-		<Layout title="Add a new Category" description={`Good Day ${users.name} ready to add new category`} >
+		<Layout title="Add a new Category" description={`Good Day ${props.user.name} ready to add new category`} >
 			
 			<div className="row">
 				<div className="col-md-8 offset-md-2 ">
@@ -84,5 +80,10 @@ return (
 		</Layout>
 		)
 }
+const mapStateToProps=(state)=>{
+	return {
+		user:state.users
+	}
+}
 
-export default AddCategory
+export default connect(mapStateToProps)(AddCategory)

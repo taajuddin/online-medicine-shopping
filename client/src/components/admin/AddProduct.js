@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
-import { isAuthenticated } from '../auth';
+import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
-import { createProduct, getCategories } from './apiAdmin';
+import {getCategories } from '../../actions/categories';
+import { createProduct} from  '../../actions/products';
 
-const AddProduct = () => {
+const AddProduct = (props) => {
     const [values, setValues] = useState({
         name: '',
         description: '',
         price: '',
-        categories: [],
         category: '',
         quantity: '',
         photo: '',
@@ -20,12 +20,10 @@ const AddProduct = () => {
         formData: ''
     });
 
-    const { users, token } = isAuthenticated();
     const {
         name,
         description,
         price,
-        categories,
         category,
         quantity,
         loading,
@@ -37,17 +35,16 @@ const AddProduct = () => {
 
     // load categories and set form data
     const init = () => {
-        getCategories().then(data => {
-            if (data.error) {
-                setValues({ ...values, error: data.error });
+        props.dispatch(getCategories())
+            if (error) {
+                setValues({ ...values, error:error });
             } else {
                 setValues({
                     ...values,
-                    categories: data,
                     formData: new FormData()
                 });
             }
-        });
+        ;
     };
 
     useEffect(() => {
@@ -64,9 +61,9 @@ const AddProduct = () => {
         event.preventDefault();
         setValues({ ...values, error: '', loading: true });
 
-        createProduct(users._id, token, formData).then(data => {
-            if (data.error) {
-                setValues({ ...values, error: data.error });
+        props.dispatch(createProduct(props.user._id, formData))
+            if (error) {
+                setValues({ ...values, error:error });
             } else {
                 setValues({
                     ...values,
@@ -76,12 +73,11 @@ const AddProduct = () => {
                     price: '',
                     quantity: '',
                     loading: false,
-                    createdProduct: data.name
+                    createdProduct: name
                 });
             }
-        });
+       
     };
-
     const newPostForm = () => (
         <form className="mb-3" onSubmit={clickSubmit}>
             <h4>Post Photo</h4>
@@ -110,8 +106,8 @@ const AddProduct = () => {
                 <label className="text-muted">Category</label>
                 <select onChange={handleChange('category')} className="form-control">
                     <option>Please select</option>
-                    {categories &&
-                        categories.map((c, i) => (
+                    {props.categories &&
+                        props.categories.map((c, i) => (
                             <option key={i} value={c._id}>
                                 {c.name}
                             </option>
@@ -148,7 +144,7 @@ const AddProduct = () => {
         );
 
     return (
-        <Layout title="Add a new product" description={`G'day ${users.name}, ready to add a new product?`}>
+        <Layout title="Add a new product" description={`G'day ${props.user.name}, ready to add a new product?`}>
             <div className="row">
                 <div className="col-md-8 offset-md-2">
                     {showLoading()}
@@ -161,4 +157,13 @@ const AddProduct = () => {
     );
 };
 
-export default AddProduct;
+const mapStateToProps=(state)=>{
+    return {
+        user:state.users,
+        categories:state.categories
+    }
+}
+
+
+
+export default connect(mapStateToProps)(AddProduct);

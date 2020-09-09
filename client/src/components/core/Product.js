@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import Layout from './Layout'
-import  {read,listRelated} from './apiCore'
 import Box from './Box'
+import {connect} from 'react-redux'
+import { API } from '../../config';
 
 
 const Product =(props)=>{
@@ -10,7 +11,29 @@ const Product =(props)=>{
 	const [relatedProduct,setRelatedProduct]=useState([])
 	const [error,setError] =useState(false)
 
+const read=(productId)=>{
+    return fetch(`${API}/product/${productId}`,{
+        method:'GET'
+    })
+    .then((response)=>{
+        return response.json()
+    })
+    .catch((err)=>{
+        console.log((err))
+    })
+}
 
+ const listRelated=(productId)=>{
+    return fetch(`${API}/products/related/${productId}`,{
+        method:'GET'
+    })
+    .then((response)=>{
+        return response.json()
+    })
+    .catch((err)=>{
+        console.log((err))
+    })
+}
 	const loadSingleProduct=(productId)=>{
 
 		read(productId).then(data=>{
@@ -44,11 +67,11 @@ const Product =(props)=>{
 			className="container-fluid">
 			
 			<div className="row">
-				<div className="col-8">
+				<div className="col-sm-12 col-lg-8">
 					{product && product.description &&  <Box  product={product} showViewProductButton={false}/>}
 
 				</div>
-				<div className="col-4">
+				<div className=" col-sm-12 col-lg-4">
 					<h4>Related Product</h4>
 					{
 						relatedProduct.map((p,i)=>(
@@ -65,4 +88,4 @@ const Product =(props)=>{
 		)
 }
 
-export default Product
+export default connect()(Product)

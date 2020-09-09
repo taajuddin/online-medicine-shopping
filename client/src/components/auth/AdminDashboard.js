@@ -1,12 +1,11 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import Layout from '../core/Layout'
-import {isAuthenticated} from '../auth/index'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
-const  AdminDashboard =()=>{
-
-	const {users:{_id,name,email,role}}=isAuthenticated()
-
+const Dashboard=(props)=>{
+	
+	
 	const adminLinks=()=>{
 		return (
 			<div className="card mb-5">
@@ -27,23 +26,32 @@ const adminInfo=()=>{
 	<div className="card mb-5">
 				<h3 className="card-header">Admin Information</h3>
 				<ul className="list-group">
-					<li className="list-group-item">{name}</li>
-					<li className="list-group-item">{email}</li>
-					<li className="list-group-item">{role === 1 ? 'Admin' :'Registered User'}</li>
+					<li className="list-group-item">{props.user.name}</li>
+					<li className="list-group-item">{props.user.email}</li>
+					<li className="list-group-item">{props.user.role === 1 ? 'Admin' :'Registered User'}</li>
 				</ul>
 			</div>
 	)
 }
 
-	return (
-		<Layout title="Dashboard" description={`Good Day ${name}`} className="container-fluid">
+
+
+	
+	return(
+		<Layout title="Dashboard" description={`Good Day ${props.user.name}`} className="container-fluid">
 			
 			<div className="row">
-				<div className="col-3 ">{adminLinks()}</div>
-				<div className="col-9">{adminInfo()}</div>
+				<div className="sol-sm-12 col-lg-3 ">{adminLinks()}</div>
+				<div className=" col-sm-12 col-lg-9">{adminInfo()}</div>
 			</div>
 		</Layout>
 		)
 }
 
-export default AdminDashboard
+const mapStateToProps=(state)=>{
+	return {
+		user:state.users
+	}
+}
+
+export default connect(mapStateToProps)(Dashboard)

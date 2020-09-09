@@ -1,32 +1,44 @@
-
 import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
-import Box from './Box'
-import { getCategories, getFilteredProducts } from "./apiCore";
-import Checkbox from "./Checkbox";
+import { API } from '../../config';
+import Box from './Box';
+//import Checkbox from "./Checkbox";
+import {connect} from 'react-redux'
 import RadioBox from "./RadioBox";
+import Checkbox from "./Checkbox";
 import { prices } from "./fixedPrices";
 
-const Shop = () => {
+const Shop = (props) => {
     const [myFilters, setMyFilters] = useState({
         filters: { category: [], price: [] }
     });
-    const [categories, setCategories] = useState([]);
     const [error, setError] = useState(false);
     const [limit, setLimit] = useState(6);
     const [skip, setSkip] = useState(0);
     const [size, setSize] = useState(0);
     const [filteredResults, setFilteredResults] = useState([]);
 
-    const init = () => {
-        getCategories().then(data => {
-            if (data.error) {
-                setError(data.error);
-            } else {
-                setCategories(data);
-            }
+
+
+const getFilteredProducts= (skip,limit,filters={})=> {
+    const data={
+        limit,skip,filters
+    }
+    return fetch(`${API}/products/by/search`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => {
+            console.log(err);
         });
-    };
+};
 
     const loadFilteredResults = newFilters => {
         // console.log(newFilters);
@@ -67,7 +79,6 @@ const Shop = () => {
     };
 
     useEffect(() => {
-        init();
         loadFilteredResults(skip, limit, myFilters.filters);
     }, []);
 
@@ -99,15 +110,15 @@ const Shop = () => {
     return (
         <Layout
             title="Shop Page"
-            description="Search and find books of your choice"
+            description="Search and find Medicine Of Your Choice"
             className="container-fluid"
         >
             <div className="row">
-                <div className="col-4">
+                <div className=" col-sm-12 col-lg-4">
                     <h4>Filter by categories</h4>
                     <ul>
                         <Checkbox
-                            categories={categories}
+                        	categories={props.categories}
                             handleFilters={filters =>
                                 handleFilters(filters, "category")
                             }
@@ -125,11 +136,11 @@ const Shop = () => {
                     </div>
                 </div>
 
-                <div className="col-8">
+                <div className="col-sm-12  col-lg-8">
                     <h2 className="mb-4">Products</h2>
                     <div className="row">
                         {filteredResults.map((product, i) => (
-                                <div key={i} className="col-4 mb-3">
+                                <div key={i} className="col-sm-12 col-lg-4 mb-3">
                                          <Box  product={product} />
                                  </div>
                           
@@ -142,5 +153,10 @@ const Shop = () => {
         </Layout>
     );
 };
+const mapStateToProps=(state)=>{
+	return{
+		categories:state.categories
+	}
+}
 
-export default Shop;
+export default connect()(Shop);

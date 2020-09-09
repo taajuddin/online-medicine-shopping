@@ -1,40 +1,40 @@
 import React, { useState } from "react";
+import {connect} from 'react-redux'
 import { Redirect } from "react-router-dom";
 import Layout from "../core/Layout";
-import { signin, authenticate, isAuthenticated } from "../auth";
+import { signin} from "../../actions/users";
 
-const Signin = () => {
+const Signin = (props) => {
     const [values, setValues] = useState({
         email: "taajraza98@gmail.com",
         password: "taaj123",
-        error: "",
         loading: false,
         redirectToReferrer: false
     });
 
-    const { email, password, loading, error, redirectToReferrer } = values;
-    const { users } = isAuthenticated();
+    const { email, password, loading,redirectToReferrer } = values;
+   
 
     const handleChange = name => event => {
-        setValues({ ...values, error: false, [name]: event.target.value });
+        setValues({ ...values,  [name]: event.target.value });
     };
 
     const clickSubmit = event => {
         event.preventDefault();
-        setValues({ ...values, error: false, loading: true });
-        signin({ email, password }).then(data => {
-            if (data.error) {
-                setValues({ ...values, error: data.error, loading: false });
-            } else {
-                authenticate(data, () => {
-                    setValues({
+        setValues({ ...values,loading: true });
+        props.dispatch(signin({ email, password }))
+             setValues({
                         ...values,
                         redirectToReferrer: true
                     });
-                });
-            }
-        });
+       
     };
+ const redirectUser = () => {
+                if (redirectToReferrer) {
+                return <Redirect to="/" />
+                     }
+            }
+      
 
     const signUpForm = () => (
         <form>
@@ -63,14 +63,6 @@ const Signin = () => {
         </form>
     );
 
-    const showError = () => (
-        <div
-            className="alert alert-danger"
-            style={{ display: error ? "" : "none" }}
-        >
-            {error}
-        </div>
-    );
 
     const showLoading = () =>
         loading && (
@@ -79,19 +71,6 @@ const Signin = () => {
             </div>
         );
 
-    const redirectUser = () => {
-        if (redirectToReferrer) {
-            if(users && users.role===1){
-                return <Redirect to="/admin/dashboard" />
-                } 
-            else{
-                return <Redirect to="/user/dashboard" />
-            }   
-            }
-            if(isAuthenticated()){
-                return <Redirect to="/" />
-            }
-    }
 
     return (
         <Layout
@@ -100,11 +79,10 @@ const Signin = () => {
             className="container col-md-8 offset-md-2"
         >
             {showLoading()}
-            {showError()}
             {signUpForm()}
             {redirectUser()}
         </Layout>
     );
 };
 
-export default Signin;
+export default connect()(Signin);

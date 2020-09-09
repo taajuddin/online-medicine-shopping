@@ -1,8 +1,10 @@
 import React,{useState,useEffect} from 'react'
+import {connect} from 'react-redux'
 
 const Checkbox =({categories,handleFilters})=>{
 
 	const [checked,setChecked]=useState([])	
+	// console.log('hello',props.categories)
 
 	const handleToggle=c=>()=>{
 
@@ -29,5 +31,10 @@ const Checkbox =({categories,handleFilters})=>{
 			</li>
 		))
 }
+const mapStateToProps=(state)=>{
+	return {
+		categories:state.categories
+	}
+}
 
-export default Checkbox
+export default connect(mapStateToProps)(Checkbox)
