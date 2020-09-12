@@ -117,25 +117,25 @@ export const getProducts = (sortBy) => {
 
 
 
-// export const RelatedProduct = (product) => {
-//     return {type: "RELATED_PRODUCT", payload: product }
-// }
+export const singleProduct = (product) => {
+    return {type: "SINGLE_PRODUCT", payload: product }
+}
 
 
-// export const listRelated=(productId)=>{
-//     return (dispatch)=>{
-//     axios.get(`${API}/products/related/${productId}`,{
-//          headers: {
-//                 'Authorization': localStorage.getItem('jwt')
-//             }
-//     })
-//     .then((response)=>{
-//         const product=response.data
-//         dispatch(RelatedProduct(product))
-//     })
-//     .catch((err)=>{
-//         console.log((err))
-//     })
+export const getProduct=(productId)=>{
+    return (dispatch)=>{
+    axios.get(`${API}/products/${productId}`,{
+         headers: {
+                'Authorization': localStorage.getItem('jwt')
+            }
+    })
+    .then((response)=>{
+        const product=response.data
+        dispatch(singleProduct(product))
+    })
+    .catch((err)=>{
+        console.log((err))
+    })
 
-// }
-// }
+}
+}

@@ -9,6 +9,7 @@ const braintreeController = require('../app/controllers/braintreeController')
 
  //order
  const order = require('../app/controllers/order')
+ const {orderById} = require('../app/middlewares/order')
 
 
 //user
@@ -25,6 +26,11 @@ const {categoryById} = require('../app/middlewares/category')
 const {productById,decreaseQuantity} = require('../app/middlewares/product')
 const product = require('../app/controllers/product')
 
+
+
+
+
+
 //Authentication
  router.post('/signup',userSignupValidator,auth.signup)
  router.post('/signin',auth.signin)
@@ -34,6 +40,7 @@ const product = require('../app/controllers/product')
  //users Routes
  router.get('/user/:userId',isLogin, user.read)
  router.put("/user/:userId",isLogin,user.update)
+ router.get('/orders/by/user/:userId',isLogin, user.purchaseHistory)
  
 
  //category
@@ -66,6 +73,10 @@ router.delete('/cart/delete/all',isLogin,cartController.deleteAll)
 //order routes
 router.post('/order/create/:userId',isLogin,addOrderToUserHistory,decreaseQuantity, order.create)
 router.get('/order/list/:userId',isLogin,isAdmin, order.listOrders)
+router.get('/order/status-values/:userId',isLogin,isAdmin, order.getStatusValues)
+router.put('/order/:orderId/status/:userId',isLogin,isAdmin, order.updateOrderStatus)
+
+
 
 
 
@@ -76,5 +87,6 @@ router.post('/braintree/payment/:userId',isLogin,braintreeController.processPaym
 router.param('userId', userById);
 router.param('productId',productById)
 router.param('categoryId',categoryById)
+router.param('orderId',orderById)
  
 module.exports=router

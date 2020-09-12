@@ -12,6 +12,8 @@ import AddProduct from './components/admin/AddProduct'
 import Product from './components/core/Product'
 import Cart from './components/core/Cart'
 import Orders from './components/admin/Orders'
+import ManageProducts from './components/admin/ManageProducts'
+import UpdateProduct from './components/admin/UpdateProduct'
 
 
 
@@ -30,6 +32,8 @@ const App=(props)=>{
 					<Route path="/create/category" exact component={AddCategory} /> 
 					<Route path="/create/product" exact component={AddProduct} /> 
 					<Route path="/admin/orders" exact component={Orders} /> 
+					<Route path="/admin/products" exact component={ManageProducts} /> 
+					<Route path="/admin/product/update/:productId" exact component={UpdateProduct} /> 
 					</>
 					)}
 

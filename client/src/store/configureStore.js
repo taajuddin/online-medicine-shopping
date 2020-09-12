@@ -4,6 +4,7 @@ import userReducer from '../reducers/userReducer'
 import categoryReducer from '../reducers/categoryReducer'
 import productReducer from '../reducers/productReducer'
 import cartReducer from '../reducers/cartReducer'
+import orderReducer from '../reducers/orderReducer'
 
 
 const configureStore = () => {
@@ -11,7 +12,8 @@ const configureStore = () => {
        users: userReducer,
        categories:categoryReducer,
        products:productReducer,
- 		cartData:cartReducer    
+ 		cartData:cartReducer ,
+ 		orders:orderReducer   
  	}), applyMiddleware(thunk))
     return store
 }

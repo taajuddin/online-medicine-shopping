@@ -3,7 +3,9 @@ import Layout from '../core/Layout'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
+
 const Dashboard=(props)=>{
+
 	
 	
 	const adminLinks=()=>{
@@ -12,13 +14,16 @@ const Dashboard=(props)=>{
 				<h3 className="card-header">Admin Link</h3>
 				<ul className="list-group">
 					<li className="list-group-item">
-						<Link className="nav-link" to="/create/category" >Create Category</Link>
+						<Link  to="/create/category">Create Category</Link>
 					</li>
 					<li className="list-group-item ">
 						<Link to="/create/Product" > Create Product</Link>
 					</li>
 					<li className="list-group-item ">
 						<Link to="/admin/orders" > View Orders</Link>
+					</li>
+					<li className="list-group-item ">
+						<Link to="/admin/products" >Manage Products</Link>
 					</li>
 				</ul>
 			</div>
@@ -53,7 +58,8 @@ const adminInfo=()=>{
 
 const mapStateToProps=(state)=>{
 	return {
-		user:state.users
+		user:state.users,
+		products:state.products
 	}
 }
 

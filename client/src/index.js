@@ -29,6 +29,7 @@ import {getProducts}  from './actions/products'
 import {list} from './actions/products'
 import {read} from './actions/products'
 import {listRelated} from './actions/products'
+import {listOrder} from './actions/orders'
  
 
 
@@ -45,6 +46,7 @@ if(localStorage.getItem('jwt')){
 	 store.dispatch(startSetUser())
 	 //  store.dispatch(list())
 	 store.dispatch(read())
+	 store.dispatch(listOrder())
 	 //  store.dispatch(listRelated())
 }
 

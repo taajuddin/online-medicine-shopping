@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
-import {listOrder} from '../core/apiCore'
+import {listOrder,getStatusValues,updataOrderStatus} from '../core/apiCore'
 import moment from 'moment'
 
 const Orders=(props)=>{
 
 	const[orders,setOrders]=useState([])
+	const[statusValues,setStatusValues]=useState([])
 
 	const userId=props.user._id
 
 	const loadOrder=()=>{
-		listOrder(userId).then(data=>{
+		listOrder(userId).then(data=>{ 
 			if(data.error){
 				console.log(data.error)
 			}else{
@@ -20,9 +21,19 @@ const Orders=(props)=>{
 			}
 		})
 	}
+	const loadStatusValues=()=>{
+		getStatusValues(userId).then(data=>{
+			if(data.error){
+				console.log(data.error)
+			}else{
+				setStatusValues(data)
+			}
+		})
+	}
 
 	useEffect(()=>{
 		loadOrder()
+		loadStatusValues()
 	},[])
 
 	const showInput=(key,value)=>(
@@ -38,7 +49,27 @@ const Orders=(props)=>{
 			 />
 		</div>
 		)
+const handleStatusChange=(e,orderId)=>{
+	updataOrderStatus(userId,orderId,e.target.value).then(data=>{
+		if(data.error){
+			console.log('failed to upadte order')
+		}else{
+			loadOrder()
+		}
+	})
+}
 
+const showStatus=(order)=>(
+		<div className="form-group">
+			<h3 className="mark mb-4">Status:{order.status}</h3>
+			<select className="form-control" onChange={(e)=>handleStatusChange(e,order._id)}>
+				<option>update status</option>
+				{statusValues.map((status,index)=>(
+					<option  key={index} value={status}>{status}</option>
+					))}
+			</select>
+		</div>
+)
 	const showOrdersLength=()=>{
 		if(orders.length>0){
 			return( <h1 className="text-danger display-2 ">
@@ -63,7 +94,7 @@ const Orders=(props)=>{
                    				</h2>
 
                    				<ul className="list-group mb-2">
-                   					<li className="list-group-item">{order.status}</li>
+                   					<li className="list-group-item">{showStatus(order)}</li>
                    					<li className="list-group-item">Transaction Id:{order.transaction_id}</li>
                    					<li className="list-group-item">Amount:RS. {order.amount}</li>
                    					<li className="list-group-item">Order By:{order.user.name}</li>

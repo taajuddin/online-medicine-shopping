@@ -62,3 +62,35 @@ export const listOrder=(userId)=>{
 	.then(response=>response.json())
 	.catch(err=>console.log(err))
 }
+
+export const getStatusValues=(userId)=>{
+	return fetch(`${API}/order/status-values/${userId}`,{
+		method:"GET",
+		headers:{
+			Accept:"application/json",
+			"Content-Type":"application/json",
+			Authorization:localStorage.getItem('jwt')
+		}
+		})
+	.then(response=>response.json())
+	.catch(err=>console.log(err))
+}
+
+
+
+export const updataOrderStatus=(userId,orderId,status)=>{
+	return fetch(`${API}/order/${orderId}/status/${userId}`,{
+		method:"PUT",
+		headers:{
+			Accept:"application/json",
+			"Content-Type":"application/json",
+			Authorization:localStorage.getItem('jwt')
+		},
+		body:JSON.stringify({status,orderId})
+		})
+	.then(response=>response.json())
+	.catch(err=>console.log(err))
+}
+
+
+

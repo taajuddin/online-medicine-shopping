@@ -1,21 +1,17 @@
-const productReducer = (state = [], action) => {
-    const categoryInitialState=[]
+const orderReducer = (state = [], action) => {
+    const orderInitialState=[]
     switch(action.type){ 
-        case 'ADD_PRODUCT': {
+        case 'ADD_ORDER': {
             return [...state, action.payload]
         }
-        case 'READ_PRODUCT': {
-            return [...state, action.payload]
+        case 'READ_ORDER': {
+            return [].concat(state = orderInitialState, action.payload)
         }
 
-        case 'SINGLE_PRODUCT': {
-            return [...state, action.payload]
-        }
-
-        case 'GET_PRODUCT': {
-            //console.log("checkhere", action.payload)
-            return [].concat(state = categoryInitialState, action.payload)
-        }
+        // case 'GET_PRODUCT': {
+        //     //console.log("checkhere", action.payload)
+        //     return [].concat(state = categoryInitialState, action.payload)
+        // }
 
         //  case 'FILTERED_PRODUCT': {
         //     //console.log("checkhere", action.payload)
@@ -38,4 +34,4 @@ const productReducer = (state = [], action) => {
     }
 }
 
-export default productReducer
+export default orderReducer
