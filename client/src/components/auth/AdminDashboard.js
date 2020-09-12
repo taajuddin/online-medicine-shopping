@@ -17,6 +17,9 @@ const Dashboard=(props)=>{
 					<li className="list-group-item ">
 						<Link to="/create/Product" > Create Product</Link>
 					</li>
+					<li className="list-group-item ">
+						<Link to="/admin/orders" > View Orders</Link>
+					</li>
 				</ul>
 			</div>
 			)

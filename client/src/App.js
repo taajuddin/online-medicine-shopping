@@ -11,6 +11,7 @@ import AddCategory from './components/admin/AddCategory'
 import AddProduct from './components/admin/AddProduct'
 import Product from './components/core/Product'
 import Cart from './components/core/Cart'
+import Orders from './components/admin/Orders'
 
 
 
@@ -28,6 +29,7 @@ const App=(props)=>{
 					<Route path="/admin/dashboard" exact component={Dashboard} /> 
 					<Route path="/create/category" exact component={AddCategory} /> 
 					<Route path="/create/product" exact component={AddProduct} /> 
+					<Route path="/admin/orders" exact component={Orders} /> 
 					</>
 					)}
 

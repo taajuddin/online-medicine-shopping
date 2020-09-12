@@ -1,5 +1,5 @@
 const { Order, CartItem } = require('../models/order');
-const { errorHandler } = require('../helpers/dbErrorHandler');
+
 
 const order={}
 // sendgrid for email npm i @sendgrid/mail
@@ -21,7 +21,7 @@ order.orderById = (req, res, next, id) => {
 };
 
 order.create = (req, res) => {
-    console.log('CREATE ORDER: ', req.body);
+    //console.log('CREATE ORDER: ', req.body);
     req.body.order.user = req.profile;
     const order = new Order(req.body.order);
     order.save((error, data) => {
@@ -34,18 +34,6 @@ order.create = (req, res) => {
         // order.address
         // order.products.length
         // order.amount
-        const emailData = {
-            to: 'kaloraat@gmail.com',
-            from: 'noreply@ecommerce.com',
-            subject: `A new order is received`,
-            html: `
-            <p>Customer name:</p>
-            <p>Total products: ${order.products.length}</p>
-            <p>Total cost: ${order.amount}</p>
-            <p>Login to dashboard to the order in detail.</p>
-        `
-        };
-        sgMail.send(emailData);
         res.json(data);
     });
 };

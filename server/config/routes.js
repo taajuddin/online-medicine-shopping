@@ -4,6 +4,8 @@ const router=express.Router()
 //cart
 const cartController = require('../app/controllers/cartController')
 
+//braintree 
+const braintreeController = require('../app/controllers/braintreeController')
 
  //order
  const order = require('../app/controllers/order')
@@ -14,13 +16,13 @@ const { isLogin,isAdmin} = require('../app/middlewares/authenticate')
 const auth = require('../app/controllers/auth')
 const user = require('../app/controllers/user')
 const { userSignupValidator } = require("../app/middlewares/validator");
-const {userById} = require('../app/middlewares/user')
+const {userById,addOrderToUserHistory} = require('../app/middlewares/user')
 
 //category
 const category = require('../app/controllers/category')
 const {categoryById} = require('../app/middlewares/category')
 //product
-const {productById} = require('../app/middlewares/product')
+const {productById,decreaseQuantity} = require('../app/middlewares/product')
 const product = require('../app/controllers/product')
 
 //Authentication
@@ -62,8 +64,14 @@ router.delete('/cart/delete/all',isLogin,cartController.deleteAll)
 
 
 //order routes
-router.post('/order/create/:userId',isLogin, order.create)
+router.post('/order/create/:userId',isLogin,addOrderToUserHistory,decreaseQuantity, order.create)
+router.get('/order/list/:userId',isLogin,isAdmin, order.listOrders)
 
+
+
+//braintree payment process 
+router.get('/braintree/getToken/:userId',isLogin,braintreeController.generateToken)
+router.post('/braintree/payment/:userId',isLogin,braintreeController.processPayment)
 //ID
 router.param('userId', userById);
 router.param('productId',productById)
