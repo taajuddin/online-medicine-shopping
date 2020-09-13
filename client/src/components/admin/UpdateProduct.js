@@ -3,16 +3,16 @@ import Layout from '../core/Layout';
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
 import {getCategories } from '../../actions/categories';
-import { createProduct} from  '../../actions/products';
+import { updateProduct} from  '../../actions/products';
 import {deleteProduct} from './apiAdmin'
 
 const UpdateProduct = (props) => {
     const [values, setValues] = useState({
-        name: '',
-        description: '',
-        price: '',
+        name: props.product?props.product.name:'',
+        description: props.product?props.product.description:'',
+        price: props.product?props.product.price:'',
         category: '',
-        quantity: '',
+        quantity: props.product?props.product.quantity:'',
         photo: '',
         loading: false,
         error: '',
@@ -35,34 +35,34 @@ const UpdateProduct = (props) => {
     } = values;
 
     // load categories and set form data
-    const init = () => {
-        props.dispatch(getCategories())
-            if (error) {
-                setValues({ ...values, error:error });
-            } else {
-                setValues({
-                    ...values,
-                    formData: new FormData()
-                });
-            }
-        ;
-    };
+    // const init = () => {
+    //     props.dispatch(getCategories())
+    //         if (error) {
+    //             setValues({ ...values, error:error });
+    //         } else {
+    //             setValues({
+    //                 ...values,
+    //                 formData: new FormData()
+    //             });
+    //         }
+    //     ;
+    // };
 
-    useEffect(() => {
-        init();
-    }, []);
+    // useEffect(() => {
+    //     init();
+    // }, []);
 
     const handleChange = name => event => {
+        setValues({...values,formData:new FormData})
         const value = name === 'photo' ? event.target.files[0] : event.target.value;
-        formData.set(name, value);
-        setValues({ ...values, [name]: value });
+        setValues({ ...values, [name]: value,formData:new FormData });
     };
 
-    const clickSubmit = event => {
+    const clickSubmit = (event,product) => {
         event.preventDefault();
         setValues({ ...values, error: '', loading: true });
 
-        props.dispatch(createProduct(props.user._id, formData))
+        props.dispatch(updateProduct(props.product._id,props.user._id, product))
             if (error) {
                 setValues({ ...values, error:error });
             } else {
@@ -121,7 +121,7 @@ const UpdateProduct = (props) => {
                 <input onChange={handleChange('quantity')} type="number" className="form-control" value={quantity} />
             </div>
 
-            <button className="btn btn-outline-primary">Create Product</button>
+            <button className="btn btn-outline-primary">Update product</button>
         </form>
     );
 
@@ -158,10 +158,12 @@ const UpdateProduct = (props) => {
     );
 };
 
-const mapStateToProps=(state)=>{
+const mapStateToProps=(state,props)=>{
+    const id=props.match.params.productId
     return {
         user:state.users,
-        categories:state.categories
+        categories:state.categories,
+        product:state.products.find(product=>product._id===id)
     }
 }
 

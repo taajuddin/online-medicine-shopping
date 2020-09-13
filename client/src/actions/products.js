@@ -63,6 +63,32 @@ export const getProducts = (sortBy) => {
     }
 }
 
+export const UpdateProduct = (product) => {
+    return {type: "UPDATE_PRODUCT", payload: product }
+}
+
+export const updateProduct = (productId, userId,product) => {
+    return (dispatch)=>{
+    axios.put(`${API}/product/${productId}/${userId}`,product, {
+        headers: ({
+                'Authorization': localStorage.getItem('jwt')
+            })
+    })
+       .then((response) => {
+            //console.log("add" ,response.data)
+            if(response.data.hasOwnProperty('errors')){
+                alert(response.data.message)
+            }
+            else{
+                alert('successfully added')
+                const product = response.data
+                dispatch(UpdateProduct(product))
+            }
+        })
+    }
+};
+
+
 
 // export const GetFilteredProduct = (product) => {
 //     return {type: "FILTERED_PRODUCT", payload: product }

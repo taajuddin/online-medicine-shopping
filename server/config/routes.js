@@ -1,8 +1,6 @@
 const express=require('express')
 const router=express.Router()
 
-//cart
-const cartController = require('../app/controllers/cartController')
 
 //braintree 
 const braintreeController = require('../app/controllers/braintreeController')
@@ -63,11 +61,6 @@ router.post("/products/by/search",product.listBySearch)
 router.get("/product/photo/:productId", product.photo)
 router.get("/products/search",product.listSearch)
 
-//cart routes
-router.get('/cart',isLogin,cartController.list)
-router.post('/cart',isLogin,cartController.create)
-router.put('/cart/qunatity/update',isLogin,cartController.updateQuantity)
-router.delete('/cart/delete/all',isLogin,cartController.deleteAll)
 
 
 //order routes

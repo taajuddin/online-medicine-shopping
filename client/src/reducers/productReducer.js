@@ -1,5 +1,5 @@
 const productReducer = (state = [], action) => {
-    const categoryInitialState=[]
+    const productInitialState=[]
     switch(action.type){ 
         case 'ADD_PRODUCT': {
             return [...state, action.payload]
@@ -14,8 +14,16 @@ const productReducer = (state = [], action) => {
 
         case 'GET_PRODUCT': {
             //console.log("checkhere", action.payload)
-            return [].concat(state = categoryInitialState, action.payload)
+            return [].concat(state = productInitialState, action.payload)
         }
+
+        case 'UPDATE_PRODUCT': return state.map(product=>{
+                                    if(product._id == action.payload._id){
+                                            return Object.assign({},product,action.payload)
+                                    } else {
+                                    return Object.assign({},product)
+                                    }
+                             })
 
         //  case 'FILTERED_PRODUCT': {
         //     //console.log("checkhere", action.payload)

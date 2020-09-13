@@ -43,7 +43,7 @@ const showCartUpdateOptions=cartUpdate=>{
 									<div className="input-group-prepend">
 										<span className="input-group-text">Adjust quantity</span>
 									</div>
-									<input type="number" className="form-control" value={count} onChange={handleChange(product._id)}/>
+									<input type="text" className="form-control" value={count} onChange={handleChange(product._id)}/>
 								</div>
 						</div>
 }
