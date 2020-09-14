@@ -3,19 +3,26 @@ require("dotenv").config();
 const mongoose=require('mongoose')
 const cors=require('cors')
 const expressValidator = require('express-validator');
+const configureDB = require('./config/database')
+const path =require('path')
 
 const app=express()
-
+app.use(express.json())
 app.use(cors())
 
-const configureDB = require('./config/database')
+app.use('/', routes)
+
 configureDB()
 const routes = require('./config/routes')
 
 app.use(expressValidator());
-app.use(express.json())
-app.use('/', routes)
+
+
 app.use(express())
+app.use(express.static(path.join(__dirname,"client/build")))
+app.get("*",(req,res)=>{
+		res.sendFie(path.join(__dirname + "/client/build/index.html"))
+})
 
 //app.options('*', cors())
 
