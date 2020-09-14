@@ -5,7 +5,7 @@ require('dotenv').config()
 const braintreeController={}
 
 const gateway=braintree.connect({
-	environment: braintree.Environment.Production,
+	environment: braintree.Environment.Sandbox, //Production
 	merchantId:process.env.BRAINTREE_MERCHANT_ID,
 	publicKey:process.env.BRAINTREE_PUBLIC_KEY,
 	privateKey:process.env.BRAINTREE_PRIVATE_KEY
