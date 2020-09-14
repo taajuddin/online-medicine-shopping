@@ -5,6 +5,7 @@ const cors=require('cors')
 const expressValidator = require('express-validator');
 const configureDB = require('./config/database')
 const path =require('path')
+const routes = require('./config/routes')
 
 const app=express()
 app.use(express.json())
@@ -13,7 +14,7 @@ app.use(cors())
 app.use('/', routes)
 
 configureDB()
-const routes = require('./config/routes')
+
 
 app.use(expressValidator());
 
