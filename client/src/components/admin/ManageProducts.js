@@ -1,53 +1,82 @@
-import React,{useState,useEffect} from 'react'
-import Layout from '../core/Layout'
-import {Link} from 'react-router-dom'
+
+
+import React, { useState, useEffect } from "react";
+import Layout from "../core/Layout";
 import {connect} from 'react-redux'
-import {deleteProduct} from './apiAdmin'
+import { Link } from "react-router-dom";
+import { getProducts, deleteProduct } from "./apiAdmin";
 
-const ManageProducts=(props)=>{
+const ManageProducts = (props) => {
+    const [products, setProducts] = useState([]);
 
 
-const destroy=(productId)=>{
-	deleteProduct(productId).then(data=>{
-		if(data.error){
-			console.log(data.error)
-		}
-	})
-}
-useEffect(()=>{
-	destroy(props.products._id)
-},[])
+    const loadProducts = () => {
+        getProducts().then(data => {
+            if (data.error) {
+                console.log(data.error);
+            } else {
+                setProducts(data);
+            }
+        });
+    };
 
-	return(
-		<Layout title="Manage Products" description="perform CRUD operations" className="container-fluid">
-		<div className="row">
-			<div className="col-12">
-				<h2 className="text-align-center">Total {props.products.length} Products</h2>
-				<hr />
-				<ul className="list-group">
-					{props.products.map((p,i)=>(
-						<li key={i} className="list-group-item d-flex justify-content-between align-item-center">
-							<strong>{p.name}</strong>
-							<Link to={`/admin/product/update/${p._id}`}>
-								<span className="badge badge-warning badge-pill">Update</span>
-							</Link>
-							<span onClick={()=>destroy(p._id)} className="badge badge-danger badge-pill">Delete</span>
-						</li>
-					))}
-				</ul>
-			</div>
-		</div>
-		
-			
-		</Layout>
-		)
-}
+    const destroy = productId => {
+        deleteProduct(productId, props.user._id).then(data => {
+            if (data.error) {
+                console.log(data.error);
+            } else {
+                loadProducts();
+            }
+        });
+    };
 
+    useEffect(() => {
+        loadProducts();
+    }, []);
+
+    return (
+        <Layout
+            title="Manage Products"
+            description="Perform CRUD on products"
+            className="container-fluid"
+        >
+            <div className="row">
+                <div className="col-12">
+                    <h2 className="text-center">
+                        Total {products.length} products
+                    </h2>
+                    <hr />
+                    <ul className="list-group">
+                        {products.map((p, i) => (
+                            <li
+                                key={i}
+                                className="list-group-item d-flex justify-content-between align-items-center"
+                            >
+                                <strong>{p.name}</strong>
+                                <Link to={`/admin/product/update/${p._id}`}>
+                                    <span className="badge badge-warning badge-pill">
+                                        Update
+                                    </span>
+                                </Link>
+                                <span
+                                    onClick={() => destroy(p._id)}
+                                    className="badge badge-danger badge-pill"
+                                >
+                                    Delete
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                    <br />
+                </div>
+            </div>
+        </Layout>
+    );
+};
 const mapStateToProps=(state)=>{
 	return {
-		products:state.products,
-		user:state.user
+		user:state.users
 	}
 }
 
-export default connect(mapStateToProps)(ManageProducts)
+export default connect(mapStateToProps)(ManageProducts);
