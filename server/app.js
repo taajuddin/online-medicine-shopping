@@ -4,7 +4,7 @@ const mongoose=require('mongoose')
 const cors=require('cors')
 const expressValidator = require('express-validator');
 const configureDB = require('./config/database')
-const path =require('path')
+// const path =require('path')
 const routes = require('./config/routes')
 
 const app=express()
@@ -20,10 +20,10 @@ app.use(expressValidator());
 
 
 app.use(express())
-app.use(express.static(path.join(__dirname,"client/build")))
-app.get("*",(req,res)=>{
-		res.sendFie(path.join(__dirname + "/client/build/index.html"))
-})
+// app.use(express.static(path.join(__dirname,"client/build")))
+// app.get("*",(req,res)=>{
+// 		res.sendFie(path.join(__dirname + "/client/build/index.html"))
+// })
 
 //app.options('*', cors())
 
