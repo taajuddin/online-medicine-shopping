@@ -24,7 +24,7 @@ user can see the purchase history. Admin can see all the order and set their sta
 
 ### Contributors
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/taajuddin"><img src="https://avatars3.githubusercontent.com/u/65958268?s=40" alt="taajuddin" /></a></br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/taajuddin"><img src="https://avatars3.githubusercontent.com/u?s=40" alt="taajuddin" /></a></br>
 [Md Taaj Uddin](https://github.com/taajuddin)
 
 ### License
