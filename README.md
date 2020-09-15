@@ -21,3 +21,13 @@ user can see the purchase history. Admin can see all the order and set their sta
 - 🌐 Ractjs | Redux | Node.js | Express.js | MongoDB
 - 🔧 Git |
 - 📦 [bootstrap](https://reactstrap.github.io/), [cors](https://www.npmjs.com/package/cors),[bcrypt.js](https://www.npmjs.com/package/bcryptjs), [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken), [mongoose](https://www.npmjs.com/package/mongoose), [redux](https://github.com/reduxjs/redux),, [react-router-dom](https://www.npmjs.com/package/react-router-dom), [validator](https://www.npmjs.com/package/validator), [axios](https://www.npmjs.com/package/axios), [redux-thunk](https://github.com/reduxjs/redux-thunk), [redux-persist](https://github.com/rt2zz/redux-persist), , [express-validator](https://express-validator.github.io/), [formidable](https://www.npmjs.com/package/formidable), [uuid](https://www.npmjs.com/package/uuid), [lodash](https://lodash.com/), [moment.js](https://momentjs.com/), [braintree](https://www.npmjs.com/package/braintree),. [braintree-Drop-in-web](https://developers.braintreepayments.com/guides/drop-in/setup-and-integration/javascript/v3),[query-string](https://www.npmjs.com/package/query-string), [reactstrap](https://www.npmjs.com/package/reactstrap)
+
+### Contributors
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/taajuddin"><img src="https://avatars3.githubusercontent.com/u/65958268?s=40" alt="taajuddin" /></a></br>
+[Md Taaj Uddin](https://github.com/taajuddin)
+
+### License
+
+[![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://github.com/taajuddin/CRUX-STATION/blob/master/LICENSE)
+
